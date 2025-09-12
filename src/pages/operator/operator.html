@@ -1,0 +1,41 @@
+<div class="operator-page">
+  <div class="header">
+    <h2>{{ operatorName }}</h2>
+  </div>
+
+  @if (items) {
+  <p>{{ items.description }}</p>
+  <p>函数签名: <span> {{ items.signature }} </span></p>
+
+  @for (item of items.examples; track $index) {
+  <br />
+  <h3>{{ item.title }}:
+
+    @if (item.description) {
+    <span class="description">{{ item.description }} </span>
+    }
+    @if (item.link) {
+    <a [href]="item.link" target="_blank">(StackBlitz)</a>
+    }
+  </h3>
+  <div class="code-block-wrapper">
+    <button class="copy-btn" (click)="copyCode(item)">{{ item.copyState === '1' ? 'Copied' : 'Copy' }}</button>
+    <pre>
+        <code class="language-javascript" [innerHTML]="item.safeCode"></code>
+    </pre>
+  </div>
+  }
+  @if (items.related?.length) {
+  <br />
+  <h4>相关操作符:</h4>
+  <ul class="related-operators">
+    @for (related of items.related; track $index) {
+    <li><a [routerLink]="['/operator', related]">{{ related }}</a></li>
+    }
+  </ul>
+  }
+
+  } @else {
+  <p>暂无内容</p>
+  }
+</div>
